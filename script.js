@@ -8,29 +8,6 @@ const goods = [
     { title: 'Shoes', price: 250 },
 ];
 
-/*const renderGoodsItem = (title, price) => {
-    return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
-};
-
-const renderGoodsList = (list) => {
-    let goodsList = list.map(item => renderGoodsItem(item.title, item.price));
-    document.querySelector('.goods-list').innerHTML = goodsList.join('');
-}
-
-renderGoodsList(goods);
-
-const div = document.getElementsByClassName('goods-item')
-
-const h3 = document.querySelectorAll('h3')
-for (let i = 0; i <= h3.length; i++) {
-    h3[i].style.color = 'red'
-    h3[i].style.fontSize = '25px'
-}*/
-
-/*const renderGoodsItem = function (title, price) {
-    return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
-};*/
-
 const renderGoodsItem = function (title, price, currency = '$') {
     return `<div class="goods-item"><h3>${title}</h3><p>${price} ${currency}</p></div>`;
 };
