@@ -32,7 +32,16 @@ class GoodsList {
         })
         document.querySelector('.goods-list').innerHTML = listHTML;
     }
+    sumBasket() {
+        let sum = 0;
+        this.goods.forEach(xxx => {
+            const sumItem = new GoodsItem(xxx.title, xxx.price, xxx.img, xxx.currency);
+            sum = sum + xxx.price;
+        })
+        document.querySelector('.goods-list').insertAdjacentHTML("afterend", `<p class = 'sumBasket'> Итого: ${sum} $</p>`)
+    }
 }
 const list = new GoodsList();
 list.fetchGoods();
 list.render();
+list.sumBasket();
