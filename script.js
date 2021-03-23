@@ -1,19 +1,38 @@
 'use strict'
 
-const goods = [
-    { title: 'Shirt', price: 150, img: 'images/white-t-shirt-svgrepo-com.svg' },
-    { title: 'Socks', price: 50 },
-    { title: 'Jacket', price: 350 },
-    { title: 'Shoes', price: 250 },
-];
-
-const renderGoodsItem = (title, price, img = 'images/cross-svgrepo-com.svg', currency = '$') => {
-    return `<div class="goods-item"><img src=${img}><h3>${title}</h3><p>${price} ${currency}</p></div>`;
-};
-
-const renderGoodsList = (list) => {
-    let goodsList = list.map(item => renderGoodsItem(item.title, item.price, item.img, item.currency));
-    document.querySelector('.goods-list').innerHTML = goodsList.join('');
+class GoodsItem {
+    constructor(title, price, img = 'images/cross-svgrepo-com.svg', currency = '$') {
+        this.title = title;
+        this.price = price;
+        this.img = img;
+        this.currency = currency;
+    }
+    render() {
+        return `<div class="goods-item"><img src=${this.img}><h3>${this.title}</h3><p>${this.price} ${this.currency}</p></div>`;
+    }
 }
 
-renderGoodsList(goods);
+class GoodsList {
+    constructor() {
+        this.goods = [];
+    }
+    fetchGoods() {
+        this.goods = [
+            { title: 'Shirt', price: 150, img: 'images/white-t-shirt-svgrepo-com.svg' },
+            { title: 'Socks', price: 50 },
+            { title: 'Jacket', price: 350 },
+            { title: 'Shoes', price: 250 },
+        ];
+    }
+    render() {
+        let listHTML = '';
+        this.goods.forEach(good => {
+            const goodItem = new GoodsItem(good.title, good.price, good.img, good.currency);
+            listHTML += goodItem.render();
+        })
+        document.querySelector('.goods-list').innerHTML = listHTML;
+    }
+}
+const list = new GoodsList();
+list.fetchGoods();
+list.render();
