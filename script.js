@@ -1,5 +1,4 @@
 'use strict'
-
 class GoodsItem {
     constructor(title, price, img = 'images/cross-svgrepo-com.svg', currency = '$') {
         this.title = title;
@@ -41,6 +40,7 @@ class GoodsList {
         document.querySelector('.goods-list').insertAdjacentHTML("afterend", `<p class = 'sumBasket'> Итого: ${sum} $</p>`)
     }
 }
+
 const list = new GoodsList();
 list.fetchGoods();
 list.render();
