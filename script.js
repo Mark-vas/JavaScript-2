@@ -42,6 +42,13 @@ class GoodsList {
 }
 
 const list = new GoodsList();
-list.fetchGoods();
-list.render();
-list.sumBasket();
+document.querySelector('button').addEventListener('click', function () {
+    list.fetchGoods();
+    list.render();
+    if (document.querySelector('.sumBasket')) {
+
+    }
+    else {
+        list.sumBasket()
+    }
+})
