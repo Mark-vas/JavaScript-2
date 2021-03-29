@@ -46,15 +46,6 @@ class GoodsList {
         })
     }
 
-    /*fetchGoods() {
-        this.goods = [
-            { title: 'Shirt', price: 150, img: 'images/white-t-shirt-svgrepo-com.svg' },
-            { title: 'Socks', price: 50 },
-            { title: 'Jacket', price: 350 },
-            { title: 'Shoes', price: 250 },
-        ];
-    }*/
-
     render() {
         let listHTML = '';
         this.goods.forEach(good => {
@@ -75,18 +66,6 @@ class GoodsList {
 }
 
 const list = new GoodsList();
-/*list.fetchGoods(() => {
-    list.render();
-    if (document.querySelector('.sumBasket')) {
-
-    }
-    else {
-        setTimeout(() => {
-            list.sumBasket()
-        }, 3000);
-    }
-});*/
-
 document.querySelector('button').addEventListener('click', function () {
     list.fetchGoods(() => {
         list.render();
@@ -94,9 +73,7 @@ document.querySelector('button').addEventListener('click', function () {
 
         }
         else {
-            setTimeout(() => {
-                list.sumBasket()
-            }, 3000);
+            list.sumBasket()
         }
     })
 })
