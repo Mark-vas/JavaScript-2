@@ -1,5 +1,5 @@
 'use strict'
-function makeGETRequest(url, callback) {
+const fetch = (url, callback) => {
     var xhr;
 
     if (window.XMLHttpRequest) {
@@ -9,7 +9,7 @@ function makeGETRequest(url, callback) {
     }
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
             callback(xhr.responseText);
         }
     }
@@ -40,7 +40,7 @@ class GoodsList {
     }
 
     fetchGoods(cb) {
-        makeGETRequest(`${API_URL}/catalogData.json`, (goods) => {
+        fetch(`${API_URL}/catalogData.json`, (goods) => {
             this.goods = JSON.parse(goods);
             cb();
         })
