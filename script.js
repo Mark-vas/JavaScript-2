@@ -37,7 +37,7 @@ class GoodsItem {
     }
 
     render() {
-        return `<div class="goods-item"><img src=${this.img}><h3>${this.product_name}</h3><p>Код товара: ${this.id_product}<p>Цена: ${this.price} ${this.currency}</p></div>`;
+        return `<div class="goods-item"><img src=${this.img}><h3>${this.product_name}</h3><p>Код товара: ${this.id_product}<p>Цена: ${this.price} ${this.currency}</p><button class="add-cart-button" type="button">Добавить в корзину</button></div>`;
     }
 }
 
@@ -68,15 +68,12 @@ class GoodsList {
         this.goods.forEach(good => {
             sum = sum + good.price;
         })
-        document.querySelector('.goods-list').insertAdjacentHTML("afterend", `<p class = 'sumBasket'> Итого: ${sum} $</p>`)
+        document.querySelector('.cart-list').insertAdjacentHTML("beforeend", `<p class = 'sumBasket'> Итого: ${sum} $</p>`)
     }
 }
 
 class Cart {
-    constructor() {
-
-    }
-
+    constructor()
 }
 
 const list = new GoodsList();

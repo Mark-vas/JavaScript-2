@@ -19,6 +19,10 @@ button img{
     margin-top: 40px;
 }
 
+.cart-list{
+    display: none;
+}
+
 .goods-item{
     text-align: center;
     width: 200px;
@@ -45,4 +49,8 @@ button img{
     font-size: 25px;
     text-align: right;
     padding-top: 40px;
+}
+
+.add-cart-button{
+    margin-bottom:  10px;
 }
