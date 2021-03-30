@@ -1,27 +1,34 @@
 'use strict'
-const fetch = (url, callback) => {
-    var xhr;
+function makeGETRequest(url) {
+    return new Promise((resolve, reject) => {
+        var xhr;
 
-    if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            callback(xhr.responseText);
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
         }
-    }
+        else if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
 
-    xhr.open('GET', url, true);
-    xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    resolve(xhr.responseText);
+                }
+                else {
+                    reject('Error')
+                }
+            }
+        }
+        xhr.open('GET', url, true);
+        xhr.send();
+    })
 }
 
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 class GoodsItem {
-    constructor(product_name, id_product = 'Отсутвсует', price = 'По запросу', img = 'images/cross-svgrepo-com.svg', currency = '$') {
+    constructor(product_name, id_product = 'Отсутствует', price = 'По запросу', img = 'images/cross-svgrepo-com.svg', currency = '$') {
         this.product_name = product_name;
         this.id_product = id_product;
         this.price = price;
@@ -39,11 +46,12 @@ class GoodsList {
         this.goods = [];
     }
 
-    fetchGoods(cb) {
-        fetch(`${API_URL}/catalogData.json`, (goods) => {
-            this.goods = JSON.parse(goods);
-            cb();
-        })
+    fetchGoods() {
+        makeGETRequest(`${API_URL}/catalogData.json`)
+            .then((data) => {
+                this.goods = JSON.parse(data);
+                list.render();
+            })
     }
 
     render() {
@@ -57,23 +65,28 @@ class GoodsList {
 
     sumBasket() {
         let sum = 0;
-        this.goods.forEach(xxx => {
-            const sumItem = new GoodsItem(xxx.product_name, xxx.id_product, xxx.price, xxx.img, xxx.currency);
-            sum = sum + xxx.price;
+        this.goods.forEach(good => {
+            sum = sum + good.price;
         })
         document.querySelector('.goods-list').insertAdjacentHTML("afterend", `<p class = 'sumBasket'> Итого: ${sum} $</p>`)
     }
 }
 
-const list = new GoodsList();
-document.querySelector('button').addEventListener('click', function () {
-    list.fetchGoods(() => {
-        list.render();
-        if (document.querySelector('.sumBasket')) {
+class Cart {
+    constructor() {
 
-        }
-        else {
-            list.sumBasket()
-        }
-    })
+    }
+
+}
+
+const list = new GoodsList();
+list.fetchGoods()
+document.querySelector('button').addEventListener('click', () => {
+    if (document.querySelector('.sumBasket')) {
+
+    }
+    else {
+        list.sumBasket()
+    }
 })
+
