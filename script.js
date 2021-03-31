@@ -21,6 +21,10 @@ function makeGETRequest(url) {
             }
         }
         xhr.open('GET', url, true);
+        xhr.timeoyt = 15000;
+        xhr.ontimeout = () => {
+            console.log('Превышено время ожидания')
+        }
         xhr.send();
     })
 }
@@ -28,16 +32,15 @@ function makeGETRequest(url) {
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 class GoodsItem {
-    constructor(product_name, id_product = 'Отсутствует', price = 'По запросу', img = 'images/cross-svgrepo-com.svg', currency = '$') {
+    constructor(product_name, id_product = 'Отсутствует', price = 'По запросу', img = 'images/cross-svgrepo-com.svg') {
         this.product_name = product_name;
         this.id_product = id_product;
         this.price = price;
         this.img = img;
-        this.currency = currency;
     }
 
     render() {
-        return `<div class="goods-item"><img src=${this.img}><h3>${this.product_name}</h3><p>Код товара: ${this.id_product}<p>Цена: ${this.price} ${this.currency}</p></div>`;
+        return `<div class="goods-item"><img src=${this.img}><h3>${this.product_name}</h3><p>Код товара: ${this.id_product}<p>${this.price}</p><button data-id=${this.id_product}>Добавить в корзину</button></div>`;
     }
 }
 
@@ -52,6 +55,19 @@ class GoodsList {
                 this.goods = JSON.parse(data);
                 list.render();
             })
+            .then(() => {
+                const buttonscart = document.querySelectorAll('.goods-item button')
+                buttonscart.forEach((btnscart) => {
+                    btnscart.addEventListener('click', function clickButton(event) {
+                        event.target.innerHTML = 'Добавлено';
+                        let idProduct = event.target.parentElement
+                        cartList.addItems(idProduct)
+                    })
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            })
     }
 
     render() {
@@ -62,31 +78,42 @@ class GoodsList {
         })
         document.querySelector('.goods-list').innerHTML = listHTML;
     }
+}
+
+class CartItem {
+    constructor() {
+        this.items = [];
+    }
+
+    addItems(idProduct) {
+        document.querySelector('.cart-list').insertAdjacentHTML('afterbegin', `<div class = 'cart-item'>${idProduct.innerHTML}</div>`);
+        document.querySelector('.cart-item button').innerHTML = 'Удалить';
+    }
 
     sumBasket() {
         let sum = 0;
-        this.goods.forEach(good => {
-            sum = sum + good.price;
+        let cart_elem = document.querySelectorAll('.cart-item')
+        console.log(cart_elem)
+        cart_elem.forEach(elem => {
+            sum = sum + Number(elem.children[3].innerHTML);
         })
-        document.querySelector('.goods-list').insertAdjacentHTML("afterend", `<p class = 'sumBasket'> Итого: ${sum} $</p>`)
+        document.querySelector('.cart-list').insertAdjacentHTML("afterend", `<p class = 'sumBasket'> Итого: ${sum}</p>`)
     }
-}
-
-class Cart {
-    constructor() {
-
-    }
-
 }
 
 const list = new GoodsList();
 list.fetchGoods()
-document.querySelector('button').addEventListener('click', () => {
+
+const cartList = new CartItem();
+document.querySelector('.cart-button').addEventListener('click', () => {
+    document.querySelector('.goods-list').style.display = 'none';
+    document.querySelector('.cart-list').style.display = 'flex';
     if (document.querySelector('.sumBasket')) {
 
     }
     else {
-        list.sumBasket()
+        cartList.sumBasket()
     }
 })
+
 
