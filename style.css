@@ -5,14 +5,12 @@
 
 .navigation{
     margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
 }
 
-.cart-button{
-    margin-left: 975px;
-}
-
-button img{
-    width: 50px;
+.back-button{
+    display: none;
 }
 
 .goods-list{

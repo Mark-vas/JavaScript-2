@@ -108,6 +108,7 @@ const cartList = new CartItem();
 document.querySelector('.cart-button').addEventListener('click', () => {
     document.querySelector('.goods-list').style.display = 'none';
     document.querySelector('.cart-list').style.display = 'flex';
+    document.querySelector('.back-button').style.display = 'inline'
     if (document.querySelector('.sumBasket')) {
 
     }
@@ -116,4 +117,10 @@ document.querySelector('.cart-button').addEventListener('click', () => {
     }
 })
 
-
+document.querySelector('.back-button').addEventListener('click', () => {
+    document.querySelector('.cart-list').style.display = 'none';
+    document.querySelector('.goods-list').style.display = 'flex';
+    if (document.querySelector('.sumBasket')) {
+        document.querySelector('.sumBasket').remove()
+    }
+})
