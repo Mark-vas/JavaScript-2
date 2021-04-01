@@ -45,11 +45,19 @@
     font-size: 20px;
 }
 
-.cart-list{
+.cart-list-main{
     display: none;
-    justify-content: space-around;
     margin-top: 40px;
+}
 
+.cart-list-main h1{
+    font-size: 40px;
+    padding-bottom: 40px;
+}
+
+.cart-list{
+    display: flex;
+    justify-content: space-around;
 }
 
 .cart-item{
