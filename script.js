@@ -54,12 +54,21 @@ class GoodsItem {
 class GoodsList {
     constructor() {
         this.goods = [];
+        this.filteredGoods = [];
     }
+
+    filterGoods(value) {
+        const regexp = new RegExp(value, 'i');
+        this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
+        this.render();
+    }
+
 
     fetchGoods() {
         makeGETRequest(`${API_URL}/catalogData.json`)
             .then((data) => {
                 this.goods = JSON.parse(data);
+                this.filteredGoods = JSON.parse(data);
                 list.render();
             })
             .then(() => {
@@ -78,7 +87,7 @@ class GoodsList {
 
     render() {
         let listHTML = '';
-        this.goods.forEach(good => {
+        this.filteredGoods.forEach(good => {
             const goodItem = new GoodsItem(good.product_name, good.id_product, good.price, good.img);
             listHTML += goodItem.render();
         })
@@ -146,4 +155,9 @@ document.querySelector('.back-button').addEventListener('click', () => {
     if (document.querySelector('.sumBasket')) {
         document.querySelector('.sumBasket').remove()
     }
+})
+
+document.querySelector('.search-button').addEventListener('click', (e) => {
+    const value = document.querySelector('.goods-search').value;
+    list.filterGoods(value);
 })
