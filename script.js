@@ -40,15 +40,13 @@ class GoodsItem {
     }
 
     render() {
-<<<<<<< HEAD
-        return `<div class="goods-item"><img src=${this.img}><h3>${this.product_name}</h3><p>Код товара: ${this.id_product}<p>Цена: ${this.price} ${this.currency}</p><button class="add-cart-button" type="button">Добавить в корзину</button></div>`;
-=======
+
         return `<div class="goods-item"><img src=${this.img}><h3>${this.product_name}</h3><p>Код товара: ${this.id_product}<p>${this.price}</p><button data-id=${this.id_product}>Добавить в корзину</button></div>`;
     }
 
     render1() {
         return `<div class="goods-item"><img src=${this.img}><h3>${this.product_name}</h3><p>Код товара: ${this.id_product}<p>${this.price}</p><button data-id=${this.id_product}>Удалить</button></div>`;
->>>>>>> origin/lesson-3
+
     }
 
 }
@@ -86,20 +84,7 @@ class GoodsList {
         })
         document.querySelector('.goods-list').innerHTML = listHTML;
     }
-<<<<<<< HEAD
 
-    sumBasket() {
-        let sum = 0;
-        this.goods.forEach(good => {
-            sum = sum + good.price;
-        })
-        document.querySelector('.cart-list').insertAdjacentHTML("beforeend", `<p class = 'sumBasket'> Итого: ${sum} $</p>`)
-    }
-}
-
-class Cart {
-    constructor()
-=======
 }
 
 class CartItem {
@@ -136,7 +121,6 @@ class CartItem {
         })
         document.querySelector('.cart-list').insertAdjacentHTML("afterend", `<p class = 'sumBasket'> Итого: ${sum} $</p>`)
     }
->>>>>>> origin/lesson-3
 }
 
 const list = new GoodsList();
@@ -148,16 +132,13 @@ document.querySelector('.cart-button').addEventListener('click', () => {
     document.querySelector('.back-button').style.display = 'inline'
     document.querySelector('.cart-list-main').style.display = 'block';
     cartList.render()
-
     if (document.querySelector('.sumBasket')) {
 
     }
     else {
         cartList.sumBasket()
     }
-
 })
-
 
 document.querySelector('.back-button').addEventListener('click', () => {
     document.querySelector('.cart-list-main').style.display = 'none';
