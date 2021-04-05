@@ -60,9 +60,15 @@ class GoodsList {
     filterGoods(value) {
         const regexp = new RegExp(value, 'i');
         this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
-        this.render();
+        list.render();
+        const buttonscart = document.querySelectorAll('.goods-item button')
+        buttonscart.forEach((btnscart) => {
+            btnscart.addEventListener('click', function clickButton(event) {
+                let idProduct = event.target.getAttribute('data-id')
+                cartList.addItems(idProduct)
+            })
+        })
     }
-
 
     fetchGoods() {
         makeGETRequest(`${API_URL}/catalogData.json`)
@@ -157,7 +163,7 @@ document.querySelector('.back-button').addEventListener('click', () => {
     }
 })
 
-document.querySelector('.search-button').addEventListener('click', (e) => {
+document.querySelector('.search-button').addEventListener('click', () => {
     const value = document.querySelector('.goods-search').value;
     list.filterGoods(value);
 })
