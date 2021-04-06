@@ -9,19 +9,25 @@
     justify-content: space-between;
 }
 
+
+
 .back-button{
     display: none;
 }
 
-.goods-list{
+.goods-list-1{
     display: flex;
     justify-content: space-around;
     margin-top: 40px;
 }
 
 .cart-list{
-    display: none;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
 }
+
+
 
 .goods-item{
     text-align: center;
@@ -57,11 +63,6 @@
 .cart-list-main h1{
     font-size: 40px;
     padding-bottom: 40px;
-}
-
-.cart-list{
-    display: flex;
-    justify-content: space-around;
 }
 
 .cart-item{
