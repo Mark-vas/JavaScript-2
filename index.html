@@ -28,6 +28,8 @@
             <div class="container">
                 <div class="goods-list">
                     <div class="search-list" v-show="SearchShow">
+                        <h1>Результаты Поиска</h1>
+                        <button v-on:click="searchHide">X</button>
                         <div class="goods-item" v-for="search in searchresults">
                             <h3>{{ search.product_name }}</h3>
                             <p>{{ search.price }}</p>
@@ -35,19 +37,28 @@
                         </div>
                     </div>
                     <div class="cart-list" v-show="CartShow">
-                        <button v-on:click="cartHide">Скрыть</button>
-                        <div class="goods-item" v-for="cart in carts">
-                            <h3>{{ cart.product_name }}</h3>
-                            <p>{{ cart.price }}</p>
-                            <button v-on:click="delItem($event)" v-bind:data-id="cart.id_product">Удалить</button>
+                        <h1>Корзина</h1>
+                        <button v-on:click="cartHide">Х</button>
+                        <div class="basket">
+                            <div class="goods-item" v-for="cart in carts">
+                                <h3>{{ cart.product_name }}</h3>
+                                <p>{{ cart.price }}</p>
+                                <button v-on:click="delItem($event)" v-bind:data-id="cart.id_product">Удалить</button>
+                            </div>
                         </div>
+                        <h1 class="totalsumBasket" v-show="sumBasket">Итого: {{sum}}</h1>
                     </div>
-                    <div class="goods-list-1" v-show="GoodsShow">
-                        <div class="goods-item" v-for="good in goods">
-                            <h3>{{ good.product_name }}</h3>
-                            <p>{{ good.price }}</p>
-                            <button v-on:click="addToCart($event)" v-bind:data-id="good.id_product">Добавить</button>
+                    <div class="catalog" v-show="GoodsShow">
+                        <h1>Каталог</h1>
+                        <div class="goods-list-1">
+                            <div class="goods-item" v-for="good in goods">
+                                <h3>{{ good.product_name }}</h3>
+                                <p>{{ good.price }}</p>
+                                <button v-on:click="addToCart($event)"
+                                    v-bind:data-id="good.id_product">Добавить</button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

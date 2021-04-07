@@ -8,9 +8,11 @@ const app = new Vue({
         GoodsShow: true,
         carts: [],
         CartShow: false,
+        sumBasket: false,
         searchresults: [],
         SearchShow: false,
-        valueText: ''
+        valueText: '',
+        sum: 0
     },
     methods: {
         makeGETRequest(url) {
@@ -56,6 +58,17 @@ const app = new Vue({
             //Показать корзину
             this.GoodsShow = false
             this.CartShow = true
+            this.SearchShow = false
+            //Рассчитать сумму в корзине. Пока не доработал.
+            if (this.sumBasket == true) {
+
+            }
+            else {
+                this.sumBasket = true
+                this.carts.forEach(elemcart => {
+                    this.sum = this.sum + elemcart.price
+                })
+            }
         },
 
         cartHide() {
@@ -64,11 +77,21 @@ const app = new Vue({
             this.GoodsShow = true
         },
 
-        delItem() {
-            //Удаленить элемент из корзины
+        delItem(event) {
+            //Удаленить элемент из корзины. Пока не знаю как удалить все.
+            console.log(event.target.getAttribute('data-id'))
+            for (let i = 0; i < this.carts.length; i++) {
+                if (this.carts[i].id_product == event.target.getAttribute('data-id')) {
+                    this.carts.splice(1, [i])
+                    // this.carts.forEach(elemcart => {
+                    //     this.sum = this.sum + elemcart.price
+                    // })
+                }
+            }
         },
 
         searchRes() {
+            // Поиск продукта в каталоге
             this.SearchShow = true
             let value = document.querySelector('.navigation-search input').value
             const regexp = new RegExp(value, 'i');
@@ -76,15 +99,20 @@ const app = new Vue({
                 return regexp.test(search.product_name)
             })
         },
+
+        searchHide() {
+            //Скрыть "Результаты поиска"
+            this.SearchShow = false
+            this.searchresults = []
+        }
     },
     mounted() {
         this.makeGETRequest(`${API_URL}/catalogData.json`)
             .then((data) => {
                 this.goods = JSON.parse(data);
-                this.carts = JSON.parse(data)
             })
             .catch(error => {
                 console.error(error);
             })
-    }
+    },
 })
