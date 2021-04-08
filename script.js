@@ -51,6 +51,11 @@ const app = new Vue({
                 if (this.goods[i].id_product == event.target.getAttribute('data-id')) {
                     this.carts.unshift(this.goods[i])
                 }
+                //Рассчитать сумму в корзине.
+                this.sum = 0
+                this.carts.forEach(elemcart => {
+                    this.sum = this.sum + elemcart.price
+                })
             }
         },
 
@@ -59,16 +64,7 @@ const app = new Vue({
             this.GoodsShow = false
             this.CartShow = true
             this.SearchShow = false
-            //Рассчитать сумму в корзине. Пока не доработал.
-            if (this.sumBasket == true) {
-
-            }
-            else {
-                this.sumBasket = true
-                this.carts.forEach(elemcart => {
-                    this.sum = this.sum + elemcart.price
-                })
-            }
+            this.sumBasket = true
         },
 
         cartHide() {
@@ -82,11 +78,15 @@ const app = new Vue({
             console.log(event.target.getAttribute('data-id'))
             for (let i = 0; i < this.carts.length; i++) {
                 if (this.carts[i].id_product == event.target.getAttribute('data-id')) {
-                    this.carts.splice(1, [i])
-                    // this.carts.forEach(elemcart => {
-                    //     this.sum = this.sum + elemcart.price
-                    // })
+                    this.carts.splice([i], 1)
+                    //Пересчитать сумму в корзине с учетом удаленных элементов
+                    this.sum = 0
+                    this.carts.forEach(elemcart => {
+                        this.sum = this.sum + elemcart.price
+                    })
+                    break
                 }
+
             }
         },
 
