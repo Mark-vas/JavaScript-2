@@ -12,12 +12,7 @@ Vue.component('catalog-list', {
         
     </div>
     
-    `,
-    // methods: {
-    //     addtocart() {
-
-    //     }
-    // }
+    `
 });
 
 Vue.component('goods-item-catalog', {
@@ -31,15 +26,8 @@ Vue.component('goods-item-catalog', {
         </div>
     `,
     methods: {
-        // addtocart() {
-        //     this.$emit('click')
-        // },
         addtocart(event, goods, carts, sum) {
             //Добавить элемент в корзину
-            // console.log(event.target)
-            // console.log(this.good)
-            // console.log(goods)
-            // console.log(sum)
             for (let i = 0; i < goods.length; i++) {
                 if (goods[i].id_product == event.target.getAttribute('data-id')) {
                     carts.unshift(goods[i])
@@ -55,12 +43,12 @@ Vue.component('goods-item-catalog', {
 });
 
 Vue.component('search-list', {
-    props: ['searchresults', 'searchshow', 'addtocart'],
+    props: ['searchresults', 'searchshow', 'carts', 'sum', 'goods'],
     template: `
     <div class="search-list" v-show="searchshow">
         <h1>Результаты поиска</h1>
         <button v-on:click="searchhide">X</button>
-        <goods-item-search v-for="search in searchresults" :search="search" v-on:click="addtocart"></goods-item-search>
+        <goods-item-search v-for="search in searchresults" :search="search" :goods="goods" :carts="carts" :sum="sum"></goods-item-search>
     </div>
     `,
     methods: {
@@ -71,17 +59,28 @@ Vue.component('search-list', {
 })
 
 Vue.component('goods-item-search', {
-    props: ['search'],
+    props: ['search', 'goods', 'carts', 'sum'],
     template: `
         <div class="goods-item">
             <h3>{{ search.product_name }}</h3>
             <p>{{ search.price }}</p>
-            <button v-on:click="addtocart"
+            <button v-on:click="addtocart($event, goods, carts, sum)"
                 :data-id="search.id_product">Добавить</button>
         </div>
     `,
     methods: {
-
+        addtocart(event, goods, carts, sum) {
+            //Добавить элемент в корзину
+            for (let i = 0; i < goods.length; i++) {
+                if (goods[i].id_product == event.target.getAttribute('data-id')) {
+                    carts.unshift(goods[i])
+                    //Рассчитать сумму в корзине.
+                    carts.forEach(elemcart => {
+                        sum[0] = sum[0] + elemcart.price;
+                    })
+                }
+            }
+        },
     }
 });
 
@@ -101,9 +100,6 @@ Vue.component('cart-list', {
         carthide() {
             this.$emit('click')
         },
-        // delcart() {
-
-        // }
     }
 })
 

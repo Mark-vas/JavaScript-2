@@ -27,8 +27,8 @@
         <main>
             <div class="container">
                 <div class="goods-list">
-                    <search-list :searchresults="searchresults" :searchshow="searchshow" v-on:click="searchhide"
-                        v-on:click="addtocart"></search-list>
+                    <search-list :searchresults="searchresults" :searchshow="searchshow" :goods="goods" :carts="carts"
+                        :sum="sum" v-on:click="searchhide" v-on:click="addtocart"></search-list>
                     <cart-list :sumbasket="sumbasket" :carts="carts" :cartshow="cartshow" :sum="sum"
                         v-on:click="carthide">
                     </cart-list>
