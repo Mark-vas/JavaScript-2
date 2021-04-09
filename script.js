@@ -11,7 +11,6 @@ Vue.component('catalog-list', {
         </div>
         
     </div>
-    
     `
 });
 
@@ -39,7 +38,6 @@ Vue.component('goods-item-catalog', {
             }
         },
     }
-
 });
 
 Vue.component('search-list', {
@@ -174,21 +172,6 @@ const app = new Vue({
             })
         },
 
-        // addtocart(event) {
-        //     //Добавить элемент в корзину
-        //     console.log(event)
-        //     for (let i = 0; i < this.goods.length; i++) {
-        //         if (this.goods[i].id_product == event.target.getAttribute('data-id')) {
-        //             this.carts.unshift(this.goods[i])
-        //         }
-        //         //Рассчитать сумму в корзине.
-        //         this.sum = 0
-        //         this.carts.forEach(elemcart => {
-        //             this.sum = this.sum + elemcart.price
-        //         })
-        //     }
-        // },
-
         cartlist() {
             //Показать корзину
             this.goodsshow = false
@@ -202,21 +185,6 @@ const app = new Vue({
             this.cartshow = false
             this.goodsshow = true
         },
-
-        // delcart(event) {
-        //     //Удаленить элемент из корзины. Пока не знаю как удалить все.
-        //     for (let i = 0; i < this.carts.length; i++) {
-        //         if (this.carts[i].id_product == event.target.getAttribute('data-id')) {
-        //             this.carts.splice([i], 1)
-        //             //Пересчитать сумму в корзине с учетом удаленных элементов
-        //             this.sum = 0
-        //             this.carts.forEach(elemcart => {
-        //                 this.sum = this.sum + elemcart.price
-        //             })
-        //             break
-        //         }
-        //     }
-        // },
 
         searchres() {
             // Поиск продукта в каталоге
@@ -245,21 +213,3 @@ const app = new Vue({
             })
     },
 })
-
-/* <div class="goods-item">
-            <h3>{{ good.product_name }}</h3>
-            <p>{{ good.price }}</p>
-            <button v-on:click="addtocart($event)" v-bind:data-id="good.id_product">Добавить</button>
-        </div> */
-
-/* <div class="goods-item">
-            <h3>{{ search.product_name }}</h3>
-            <p>{{ search.price }}</p>
-            <button v-on:click="addtocart($event)"
-                v-bind:data-id="search.id_product">Добавить</button>
-        </div> */
-/* <div class="goods-item">
-    <h3>{{ cart.product_name }}</h3>
-    <p>{{ cart.price }}</p>
-    <button v-on:click="delcart($event)" v-bind:data-id="cart.id_product">Удалить</button>
-</div> */
