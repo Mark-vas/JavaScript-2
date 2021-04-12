@@ -142,6 +142,30 @@ const app = new Vue({
         sum: [0]
     },
     methods: {
+        makePOSTRequest(url, data, callback) {
+            let xhr;
+
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    callback(xhr.responseText);
+                }
+            }
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            xhr.timeoyt = 15000;
+            xhr.ontimeout = () => {
+                console.log('Превышено время ожидания')
+            }
+            xhr.send(data);
+        },
+
         makeGETRequest(url) {
             return new Promise((resolve, reject) => {
                 var xhr;
