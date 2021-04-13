@@ -46,7 +46,7 @@
                                 <button v-on:click="delItem($event)" v-bind:data-id="cart.id_product">Удалить</button>
                             </div>
                         </div>
-                        <h1 class="totalsumBasket" v-show="sumBasket">Итого: {{sum}}</h1>
+                        <h1 class="totalsumBasket" v-show="sumBasket">Итого: {{total}}</h1>
                     </div>
                     <div class="catalog" v-show="GoodsShow">
                         <h1>Каталог</h1>
@@ -58,7 +58,6 @@
                                     v-bind:data-id="good.id_product">Добавить</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

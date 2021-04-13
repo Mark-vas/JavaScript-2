@@ -51,11 +51,6 @@ const app = new Vue({
                 if (this.goods[i].id_product == event.target.getAttribute('data-id')) {
                     this.carts.unshift(this.goods[i])
                 }
-                //Рассчитать сумму в корзине.
-                this.sum = 0
-                this.carts.forEach(elemcart => {
-                    this.sum = this.sum + elemcart.price
-                })
             }
         },
 
@@ -79,14 +74,8 @@ const app = new Vue({
             for (let i = 0; i < this.carts.length; i++) {
                 if (this.carts[i].id_product == event.target.getAttribute('data-id')) {
                     this.carts.splice([i], 1)
-                    //Пересчитать сумму в корзине с учетом удаленных элементов
-                    this.sum = 0
-                    this.carts.forEach(elemcart => {
-                        this.sum = this.sum + elemcart.price
-                    })
                     break
                 }
-
             }
         },
 
@@ -106,6 +95,18 @@ const app = new Vue({
             this.searchresults = []
         }
     },
+
+    computed: {
+        //Рассчитать сумму в корзине.
+        total: function () {
+            this.sum = 0
+            this.carts.forEach(element => {
+                this.sum = this.sum + element.price
+            });
+            return this.sum
+        }
+    },
+
     mounted() {
         this.makeGETRequest(`${API_URL}/catalogData.json`)
             .then((data) => {
