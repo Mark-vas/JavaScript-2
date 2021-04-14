@@ -167,7 +167,7 @@ const app = new Vue({
             // Поиск продукта в каталоге
             let value = document.querySelector('.navigation-search input').value
             if (value == '') {
-                document.querySelector('.navigation-search').insertAdjacentHTML("beforeend", '<p>Задан пустой поисковый запрос</p>')
+
             }
             else {
                 this.searchshow = true
