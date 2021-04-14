@@ -24,6 +24,11 @@
     padding-bottom: 40px;
 }
 
+.search-list-res{
+    display: flex;
+    justify-content: space-around;
+}
+
 .back-button{
     display: none;
 }

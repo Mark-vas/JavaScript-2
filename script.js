@@ -2,128 +2,105 @@
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 Vue.component('catalog-list', {
-    props: ['goods', 'goodsshow', 'carts', 'sum'],
+    props: ['goods', 'goodsshow'],
     template: `
     <div class="catalog" v-show="goodsshow">
         <h1>Каталог</h1>
         <div class="goods-list-1">
-            <goods-item-catalog v-for="good in goods" :good="good" :goods="goods" :carts="carts" :sum="sum"></goods-item-catalog>
+            <goods-item-catalog v-for="good in goods" :good="good" v-on:click="addtocart($event)"></goods-item-catalog>
         </div>
-        
     </div>
-    `
+    `,
+    methods: {
+        addtocart(event) {
+            this.$emit('click', event)
+        }
+    }
 });
 
 Vue.component('goods-item-catalog', {
-    props: ['good', 'goods', 'carts', 'sum'],
+    props: ['good'],
     template: `
         <div class="goods-item">
             <h3>{{ good.product_name }}</h3>
             <p>{{ good.price }}</p>
-            <button v-on:click="addtocart($event, goods, carts, sum)" :data-id="good.id_product" :sum="sum">Добавить</button>
+            <button v-on:click="addtocart($event)" :data-id="good.id_product">Добавить</button>
            
         </div>
     `,
     methods: {
-        addtocart(event, goods, carts, sum) {
-            //Добавить элемент в корзину
-            for (let i = 0; i < goods.length; i++) {
-                if (goods[i].id_product == event.target.getAttribute('data-id')) {
-                    carts.unshift(goods[i])
-                    //Рассчитать сумму в корзине.
-                    carts.forEach(elemcart => {
-                        sum[0] = sum[0] + elemcart.price;
-                    })
-                }
-            }
-        },
+        addtocart(event) {
+            this.$emit('click', event)
+        }
     }
 });
 
 Vue.component('search-list', {
-    props: ['searchresults', 'searchshow', 'carts', 'sum', 'goods'],
+    props: ['searchresults', 'searchshow'],
     template: `
     <div class="search-list" v-show="searchshow">
         <h1>Результаты поиска</h1>
-        <button v-on:click="searchhide">X</button>
-        <goods-item-search v-for="search in searchresults" :search="search" :goods="goods" :carts="carts" :sum="sum"></goods-item-search>
+        <button v-on:click="$emit('searchclose')">X</button>
+        <div class="search-list-res">
+            <goods-item-search v-for="search in searchresults"          :search="search" v-on:click="addtocart($event)"></goods-item-search>
+        </div>
     </div>
     `,
     methods: {
-        searchhide() {
-            this.$emit('click')
+        addtocart(event) {
+            this.$emit('click', event)
         }
     }
 })
 
 Vue.component('goods-item-search', {
-    props: ['search', 'goods', 'carts', 'sum'],
+    props: ['search'],
     template: `
         <div class="goods-item">
             <h3>{{ search.product_name }}</h3>
             <p>{{ search.price }}</p>
-            <button v-on:click="addtocart($event, goods, carts, sum)"
+            <button v-on:click="addtocart($event)"
                 :data-id="search.id_product">Добавить</button>
         </div>
     `,
     methods: {
-        addtocart(event, goods, carts, sum) {
-            //Добавить элемент в корзину
-            for (let i = 0; i < goods.length; i++) {
-                if (goods[i].id_product == event.target.getAttribute('data-id')) {
-                    carts.unshift(goods[i])
-                    //Рассчитать сумму в корзине.
-                    carts.forEach(elemcart => {
-                        sum[0] = sum[0] + elemcart.price;
-                    })
-                }
-            }
-        },
+        addtocart(event) {
+            this.$emit('click', event)
+        }
     }
 });
 
 Vue.component('cart-list', {
-    props: ['carts', 'cartshow', 'sumbasket', 'sum'],
+    props: ['carts', 'cartshow', 'sumbasket', 'total'],
     template: `
     <div class="cart-list" v-show="cartshow">
         <h1>Корзина</h1>
-        <button v-on:click="carthide">Х</button>
+        <button v-on:click="$emit('cartclose')">Х</button>
         <div class="basket">
-            <goods-item-cart v-for="cart in carts" :cart="cart" :carts="carts" :sum="sum"></goods-item-cart>
+            <goods-item-cart v-for="cart in carts" v-on:click="delcart($event)" :cart="cart"></goods-item-cart>
         </div >
-        <h1 class="totalsumBasket" :sum="sum" v-show="sumbasket">Итого: {{sum[0]}}</h1>
+        <h1 class="totalsumBasket" v-show="sumbasket">Итого: {{total}}</h1>
     </div>
     `,
     methods: {
-        carthide() {
-            this.$emit('click')
-        },
+        delcart(event) {
+            this.$emit('click', event)
+        }
     }
 })
 
 Vue.component('goods-item-cart', {
-    props: ['cart', 'carts', 'sum'],
+    props: ['cart'],
     template: `
     <div class="goods-item">
         <h3>{{ cart.product_name }}</h3>
         <p>{{ cart.price }}</p>
-        <button v-on:click="delcart($event, carts, sum)" :data-id="cart.id_product">Удалить</button>
+        <button v-on:click="delcart($event)" :data-id="cart.id_product">Удалить</button>
     </div>
     `,
     methods: {
-        delcart(event, carts, sum) {
-            //Удаленить элемент из корзины.
-            for (let i = 0; i < carts.length; i++) {
-                if (carts[i].id_product == event.target.getAttribute('data-id')) {
-                    carts.splice([i], 1)
-                    //Пересчитать сумму в корзине с учетом удаленных элементов
-                    sum[0] = 0
-                    carts.forEach(elemcart => {
-                        sum[0] = sum[0] + elemcart.price;
-                    })
-                    break
-                }
-            }
+        delcart(event) {
+            this.$emit('click', event)
         },
     }
 })
@@ -139,7 +116,7 @@ const app = new Vue({
         searchresults: [],
         searchshow: false,
         valuetext: '',
-        sum: [0]
+        sum: 0
     },
     methods: {
         makeGETRequest(url) {
@@ -188,18 +165,40 @@ const app = new Vue({
 
         searchres() {
             // Поиск продукта в каталоге
-            this.searchshow = true
             let value = document.querySelector('.navigation-search input').value
-            const regexp = new RegExp(value, 'i');
-            this.searchresults = this.goods.filter(search => {
-                return regexp.test(search.product_name)
-            })
+            if (value == '') {
+                document.querySelector('.navigation-search').insertAdjacentHTML("beforeend", '<p>Задан пустой поисковый запрос</p>')
+            }
+            else {
+                this.searchshow = true
+                const regexp = new RegExp(value, 'i');
+                this.searchresults = this.goods.filter(search => {
+                    return regexp.test(search.product_name)
+                })
+            }
         },
 
         searchhide() {
             //Скрыть "Результаты поиска"
             this.searchshow = false
             this.searchresults = []
+        },
+
+        addtocart(event) {
+            //Добавить элемент в корзину
+            for (let i = 0; i < this.goods.length; i++) {
+                if (this.goods[i].id_product == event.target.getAttribute('data-id')) {
+                    this.carts.unshift(this.goods[i])
+                }
+            }
+        },
+        delcart(event) {
+            for (let i = 0; i < this.carts.length; i++) {
+                if (this.carts[i].id_product == event.target.getAttribute('data-id')) {
+                    this.carts.splice([i], 1)
+                    break
+                }
+            }
         }
     },
 
@@ -212,4 +211,15 @@ const app = new Vue({
                 console.error(error);
             })
     },
+
+    computed: {
+        //Рассчитать сумму в корзине.
+        total: function () {
+            this.sum = 0
+            this.carts.forEach(element => {
+                this.sum = this.sum + element.price
+            });
+            return this.sum
+        }
+    }
 })

@@ -27,12 +27,12 @@
         <main>
             <div class="container">
                 <div class="goods-list">
-                    <search-list :searchresults="searchresults" :searchshow="searchshow" :goods="goods" :carts="carts"
-                        :sum="sum" v-on:click="searchhide" v-on:click="addtocart"></search-list>
-                    <cart-list :sumbasket="sumbasket" :carts="carts" :cartshow="cartshow" :sum="sum"
-                        v-on:click="carthide">
+                    <search-list :searchresults="searchresults" :searchshow="searchshow" v-on:searchclose="searchhide"
+                        v-on:click="addtocart"></search-list>
+                    <cart-list :sumbasket="sumbasket" :carts="carts" :cartshow="cartshow" :total="total"
+                        v-on:cartclose="carthide" v-on:click="delcart">
                     </cart-list>
-                    <catalog-list :goods="goods" :goodsshow="goodsshow" :carts="carts" :sum="sum">
+                    <catalog-list :goods="goods" :goodsshow="goodsshow" v-on:click="addtocart">
                     </catalog-list>
                 </div>
             </div>
@@ -43,36 +43,3 @@
 </body>
 
 </html>
-
-<!-- <div class="search-list" v-show="SearchShow">
-    <h1>Результаты поиска</h1>
-    <button v-on:click="searchHide">X</button>
-    <div class="goods-item" v-for="search in searchresults">
-        <h3>{{ search.product_name }}</h3>
-        <p>{{ search.price }}</p>
-        <button v-on:click="addToCart($event)" v-bind:data-id="search.id_product">Добавить</button>
-    </div>
-</div>
-<div class="cart-list" v-show="CartShow">
-    <h1>Корзина</h1>
-    <button v-on:click="cartHide">Х</button>
-    <div class="basket">
-        <div class="goods-item" v-for="cart in carts">
-            <h3>{{ cart.product_name }}</h3>
-            <p>{{ cart.price }}</p>
-            <button v-on:click="delItem($event)" v-bind:data-id="cart.id_product">Удалить</button>
-        </div>
-    </div>
-    <h1 class="totalsumBasket" v-show="sumBasket">Итого: {{sum}}</h1>
-</div>
-<div class="catalog" v-show="GoodsShow">
-    <h1>Каталог</h1>
-    <div class="goods-list-1">
-        <div class="goods-item" v-for="good in goods">
-            <h3>{{ good.product_name }}</h3>
-            <p>{{ good.price }}</p>
-            <button v-on:click="addToCart($event)"
-                v-bind:data-id="good.id_product">Добавить</button>
-        </div>
-    </div>
-</div> -->
