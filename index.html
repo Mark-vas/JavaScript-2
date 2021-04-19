@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="rus">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eShop</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <div class="container">
+                <div class="navigation">
+                    <div class="navigation-search">
+                        <input v-bind:value="valuetext" type="text" class="goods-search" />
+                        <button class="search-button" v-on:click="searchres" type="button">Поиск</button>
+                    </div>
+                    <div class="navigation-cart">
+                        <button class="cart-button" type="button" v-on:click="cartlist">Корзина</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                <div class="goods-list">
+                    <search-list :searchresults="searchresults" :searchshow="searchshow" v-on:searchclose="searchhide"
+                        v-on:click="addtocart"></search-list>
+                    <cart-list :sumbasket="sumbasket" :carts="carts" :cartshow="cartshow" :total="total"
+                        v-on:cartclose="carthide" v-on:click="delcart">
+                    </cart-list>
+                    <catalog-list :goods="goods" :goodsshow="goodsshow" v-on:click="addtocart">
+                    </catalog-list>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
